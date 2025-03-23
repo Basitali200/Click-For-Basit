@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Click For Basit - Auto Tabs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffcc00;
+        }
+        .input-container {
+            margin: 20px auto;
+            max-width: 500px;
+            background: rgba(34, 34, 34, 0.9);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        input, button {
+            width: 90%;
+            padding: 12px;
+            margin: 10px 0;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            display: block;
+            text-align: center;
+        }
+        input {
+            background: #333;
+            color: white;
+            border: 2px solid #ffcc00;
+        }
+        button {
+            background-color: #ffcc00;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #ffaa00;
+        }
+        .tab-preview {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .tab-box {
+            width: 50px;
+            height: 50px;
+            background-color: gray;
+            border-radius: 5px;
+            margin: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .green {
+            background-color: green !important;
+            color: white;
+        }
+        .red {
+            background-color: red !important;
+            color: white;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 500px;
+            margin-top: 20px;
+            background: #222;
+            border-radius: 10px;
+            display: none;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Click For Basit - Auto Tabs</h1>
+
+    <div class="input-container">
+        <input type="text" id="url" placeholder="Paste your link here">
+        <input type="number" id="tabCount" placeholder="Number of Tabs">
+        <button id="openBtn">Open</button>
+    </div>
+
+    <h3>Live Preview:</h3>
+    <div class="tab-preview" id="previewArea"></div>
+
+    <div class="iframe-container" id="iframeContainer">
+        <iframe id="iframeView"></iframe>
+    </div>
+
+    <script>
+        document.getElementById("openBtn").addEventListener("click", function() {
+            let url = document.getElementById('url').value.trim();
+            let count = parseInt(document.getElementById('tabCount').value);
+            let previewArea = document.getElementById('previewArea');
+            let iframeContainer = document.getElementById('iframeContainer');
+            let iframeView = document.getElementById('iframeView');
+
+            previewArea.innerHTML = "";
+            iframeContainer.style.display = "none";
+
+            if (!url || isNaN(count) || count <= 0) {
+                alert("Please enter a valid URL and number of tabs.");
+                return;
+            }
+
+            if (!url.startsWith("http://") && !url.startsWith("https://")) {
+                url = "https://" + url;
+            }
+
+            let openedTabs = [];
+
+            for (let i = 0; i < count; i++) {
+                let tabBox = document.createElement("div");
+                tabBox.classList.add("tab-box");
+                tabBox.innerText = i + 1;
+
+                tabBox.onclick = function() {
+                    iframeContainer.style.display = "block";
+                    iframeView.src = url;
+                    tabBox.classList.add("green");
+                };
+
+                previewArea.appendChild(tabBox);
+                openedTabs.push(tabBox);
+            }
+
+            // 🔥🔥🔥 Auto Open Tabs in Iframe (Without Clicking) 🔥🔥🔥
+            let index = 0;
+            let autoOpenInterval = setInterval(() => {
+                if (index < openedTabs.length) {
+                    openedTabs[index].click();
+                    index++;
+                } else {
+                    clearInterval(autoOpenInterval);
+                }
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>
